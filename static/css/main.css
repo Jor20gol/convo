@@ -29,6 +29,7 @@ body {
 .message-user {
     font-size: 1.2em;
     font-weight: bold;
+    color: #2A8F2A;
 }
 
 .message-date {

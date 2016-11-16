@@ -1,8 +1,13 @@
 $(document).ready(function(){
 
+    if (!sessionStorage.username) {
+        $("#name-save-modal").modal("show");
+    }
+
+
     console.log("The page is loading");
 
-    var socket = new WebSocket("ws://192.168.1.218:8080/socket", "protocolOne");
+    var socket = new WebSocket("ws://localhost:8080/socket");
 
     socket.onopen = function (event) {
         var test = {
@@ -39,7 +44,7 @@ $(document).ready(function(){
         var fullMsg = {
             type: "message",
             text: msgText,
-            user: "Jordan",
+            user: sessionStorage.username,
             date: Date.now()
         };
 
@@ -52,5 +57,12 @@ $(document).ready(function(){
 
 });
 
-
+function saveName() {
+    var name = $("#name-input").val();
+    if (name.length > 30) {
+        name = name.substring(0, 30);
+    }
+    sessionStorage.username = name;
+    $("#name-save-modal").modal("hide");
+}
 

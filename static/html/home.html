@@ -24,23 +24,44 @@
             </ul>
         </div>
         <br />
-        <!--<nav class="navbar navbar-default navbar-fixed-bottom">
-            <div class="container-fluid">
-                <form class="navbar-form" name="j-form" id="j-form" action="" method="post">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Message..." id="msg" name="msg">
-                        <span class="input-group-btn">
-                            <button class="btn btn-success" type="submit" name="submit-btn" id="submit-btn" >Send</button>
-                        </span>                        
-                    </div>
-                </form>            
-            </div>
-        </nav>-->
 
         <div class="message-input-container">
             <form name="j-form" id="j-form" action="" method="post">
                 <input type="text" class="message-input" placeholder="Message..." id="msg" name="msg">                   
             </form>             
         </div>
+
+        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="name-save-modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Choose a name</h4>
+                    </div>
+                    <div class="modal-body">                    
+                        <input class="form-control" id="name-input" placeholder="name"/>                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success btn-block" id="save-name-btn" onclick="saveName()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        <div class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+        </div>
+        <div class="modal-body">
+        <p>One fine body&hellip;</p>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+        </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->            
     </body>
 </html>
