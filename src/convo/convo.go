@@ -1,5 +1,9 @@
 package main
 
+/**
+ * Created by Jordan Golightly
+ */
+
 import (
 	"encoding/json"
 	"flag"
@@ -8,16 +12,12 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gorilla/mux"
-
 	"github.com/garyburd/redigo/redis"
+	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
 )
 
-/**
- * This is the main package, the starting point for the application
- */
-
+/* newPool : Creates a pool of Redis connections */
 func newPool(server string) *redis.Pool {
 	return &redis.Pool{
 		MaxActive:   80,
@@ -32,11 +32,15 @@ func newPool(server string) *redis.Pool {
 	}
 }
 
+/* Pool : A pool of Redis connections and connection details */
 var (
 	Pool        *redis.Pool
 	redisServer = flag.String("localhost", ":4245", "")
 )
 
+/* init is called before anything else on the page
+ * This initializes the redis server details
+ */
 func init() {
 	flag.Parse()
 	Pool = newPool(*redisServer)
@@ -55,12 +59,14 @@ func FileServerHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+/* struct for web socket upgrader */
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 	CheckOrigin:     func(r *http.Request) bool { return true },
 }
 
+/*Card : struct for messages */
 type Card struct {
 	Type string `json:"type"`
 	Text string `json:"text"`
@@ -84,6 +90,7 @@ func SocketHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Opens redis handler in new goroutine
 	go RedisPubSubHandler(conn)
 
 	v := Card{}
@@ -111,6 +118,9 @@ func SocketHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+/*RedisPubSubHandler :
+ * Manages messages with redis
+ */
 func RedisPubSubHandler(socketConn *websocket.Conn) {
 	var newMessage Card
 	var newMessageString string
@@ -144,6 +154,9 @@ func RedisPubSubHandler(socketConn *websocket.Conn) {
 	}
 }
 
+/*PublishMessage :
+ * Sends message to redis channel
+ */
 func PublishMessage(message Card) {
 	var messageString string
 	var messageBytes []byte
@@ -166,6 +179,7 @@ func main() {
 
 	log.Println("Server running on port 8080")
 
+	// Initialize Gorrilla Router
 	r := mux.NewRouter()
 
 	// Main Handlers
